@@ -1,15 +1,25 @@
 # pricing-api
 This pricing API provides the current price for a given financial instrument
 
-## Setup
+## Set-up
 `git clone https://github.com/mathyba/pricing-api.git`
 
 in `api.py`, replace the example Yahoo Finance API Key with your own.
 
-Then, in the virtual environment shell, run `python pricing_app.py`
+### --> with Docker
 
+I am assuming you have Docker installed. If not, you can find instructions for your system in the official documentation: https://docs.docker.com/engine/install/
 
-# Via a virtual environment
+- Build the docker image: `sudo docker build . -t pricing-api`
+- Run the container: `sudo docker run --name "pricing-api" -v $(pwd):/api -p 5000:5000 -t pricing-api`
+
+Side notes: 
+- Anything running on the container's 5000 port will be available on localhost 5000 port
+- Any changes you make to the code will be available in the container, which will lead the API to restart
+- For access to the server logs: `docker logs pricing-api -f`
+- For direct access within the container, most likely for debugging purposes: `docker exec -ti pricing-api /bin/sh `
+
+### --> with a virtual environment
 
 Before running the app, you should set up a virtual environment in the git repository, and use the requirements.txt to install the dependencies.
 
@@ -46,6 +56,12 @@ A valid request with a known instrument symbol will return a json with symbol, p
 ## Testing
 
 A test suite is available to test the API: run `pytest` either in your virtual environment or docker container
+
+### --> in your container
+run `docker exec -t pricing-api python3 -m pytest`
+
+### --> in a virtual env
+run `pytest`
 
 In case of issues with imports, make sure the API's path is in your PYTHONPATH!
 `export PYTHONPATH+=":/path/to/the/git/repo"`

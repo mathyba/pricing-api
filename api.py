@@ -39,4 +39,5 @@ def get_price():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Run on 0.0.0.0 rather than localhost for access from outside the Docker container
+    app.run(debug=True, host="0.0.0.0")
